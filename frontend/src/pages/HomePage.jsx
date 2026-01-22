@@ -25,8 +25,6 @@ const HomePage = () => {
 
         const data = await res.json();
         setNotes(data);
-
-        console.log(data);
       } catch (error) {
         console.error("Error fetching notes:", error);
         toast.error("Failed to load notes!");
