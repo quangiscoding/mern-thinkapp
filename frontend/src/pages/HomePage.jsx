@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import toast from "react-hot-toast";
 
 import Navbar from "../components/Navbar.jsx";
 import NoteCard from "../components/NoteCard.jsx";
@@ -8,25 +8,30 @@ import RateLimitedUI from "../components/RateLimitedUI.jsx";
 const HomePage = () => {
   const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRateLimited, setIsRateLimited] = useState(true);
+  const [isRateLimited, setIsRateLimited] = useState(false);
 
   useEffect(() => {
     const fetchNotes = async () => {
       try {
         const res = await fetch("/api/notes");
-        if (!res.ok) throw new Error(res.status);
-        const data = await res.json();
 
+        if (res.status === 429) {
+          setIsRateLimited(true);
+          toast.error("Too many requests");
+          return;
+        }
+
+        if (!res.ok) throw new Error(res.status);
+
+        const data = await res.json();
         setNotes(data);
 
         console.log(data);
       } catch (error) {
-        console.error("Error:", error);
-
-        if (error.response?.status === 429) {
-          setIsRateLimited(true);
-        }
+        console.error("Error fetching notes:", error);
+        toast.error("Failed to load notes!");
       } finally {
+        setIsLoading(false);
       }
     };
 
@@ -40,11 +45,13 @@ const HomePage = () => {
       {isLoading && (
         <div className="text-primary text-center py-10">Loading notes...</div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {notes.map((note) => (
-          <NoteCard key={note._id} note={note} />
-        ))}
-      </div>
+      {notes.length > 0 && !isRateLimited && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {notes.map((note) => (
+            <NoteCard key={note._id} note={note} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
