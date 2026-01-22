@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import Navbar from "../components/Navbar.jsx";
 import NoteCard from "../components/NoteCard.jsx";
 import RateLimitedUI from "../components/RateLimitedUI.jsx";
+import NoteNotFoundUI from "../components/NoteNotFoundUI.jsx";
 
 const HomePage = () => {
   const [notes, setNotes] = useState([]);
@@ -44,6 +45,7 @@ const HomePage = () => {
         {isLoading && (
           <div className="text-primary text-center py-10">Loading notes...</div>
         )}
+        {notes.length === 0 && !isRateLimited && <NoteNotFoundUI />}
         {notes.length > 0 && !isRateLimited && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {notes.map((note) => (
