@@ -9,7 +9,7 @@ const Navbar = () => {
           <h1 className="text-3xl text-primary font-bold font-mono">
             Think App
           </h1>
-          <Link to={"/create"} className="btn btn-primary">
+          <Link to="/create" className="btn btn-primary">
             <PlusIcon />
             <span>New Note</span>
           </Link>

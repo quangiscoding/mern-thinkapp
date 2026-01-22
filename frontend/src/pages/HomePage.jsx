@@ -42,16 +42,18 @@ const HomePage = () => {
     <div className="min-h-screen">
       <Navbar />
       {isRateLimited && <RateLimitedUI />}
-      {isLoading && (
-        <div className="text-primary text-center py-10">Loading notes...</div>
-      )}
-      {notes.length > 0 && !isRateLimited && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {notes.map((note) => (
-            <NoteCard key={note._id} note={note} />
-          ))}
-        </div>
-      )}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {isLoading && (
+          <div className="text-primary text-center py-10">Loading notes...</div>
+        )}
+        {notes.length > 0 && !isRateLimited && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {notes.map((note) => (
+              <NoteCard key={note._id} note={note} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
