@@ -12,6 +12,7 @@ const App = () => {
         onClick={() => {
           toast.success("Congrats");
         }}
+        className="text-red-500 bg-pink-300 p-4"
       >
         Click me!
       </button>
