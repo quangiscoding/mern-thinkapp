@@ -8,7 +8,7 @@ import RateLimitedUI from "../components/RateLimitedUI.jsx";
 const HomePage = () => {
   const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRateLimited, setIsRateLimited] = useState(false);
+  const [isRateLimited, setIsRateLimited] = useState(true);
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -22,6 +22,10 @@ const HomePage = () => {
         console.log(data);
       } catch (error) {
         console.error("Error:", error);
+
+        if (error.response?.status === 429) {
+          setIsRateLimited(true);
+        }
       } finally {
       }
     };
