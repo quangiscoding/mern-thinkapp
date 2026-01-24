@@ -12,7 +12,7 @@ const NoteNotFoundUI = () => {
         Ready to organize your thoughts? Create your first note to get started
         on your journey.
       </p>
-      <Link to="/create" className="btn btn-primary rounded-full">
+      <Link to="/create" className="btn btn-primary">
         Create your first note
       </Link>
     </div>

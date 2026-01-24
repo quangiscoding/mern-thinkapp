@@ -45,7 +45,9 @@ const HomePage = () => {
         {isLoading && (
           <div className="text-primary text-center py-10">Loading notes...</div>
         )}
-        {notes.length === 0 && !isRateLimited && <NoteNotFoundUI />}
+        {!isLoading && notes.length === 0 && !isRateLimited && (
+          <NoteNotFoundUI />
+        )}
         {notes.length > 0 && !isRateLimited && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {notes.map((note) => (
