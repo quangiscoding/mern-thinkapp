@@ -1,11 +1,19 @@
 import { Link } from "react-router-dom";
 import { PenSquareIcon, Trash2Icon } from "lucide-react";
+import toast from "react-hot-toast";
 
 import formatDate from "../lib/utils.js";
+import { deleteNote } from "../lib/fetchJSON.js";
 
-const NoteCard = ({ note }) => {
-  const handleDelete = (e, id) => {
+const NoteCard = ({ note, setNotes }) => {
+  const handleDelete = async (e, id) => {
     e.preventDefault();
+
+    if (!window.confirm("You sure you wanna delete this note?")) return;
+
+    await deleteNote(id);
+    setNotes((prev) => prev.filter((n) => n._id !== note._id));
+    toast.success("Note deleted!");
   };
 
   return (
@@ -22,14 +30,14 @@ const NoteCard = ({ note }) => {
           </span>
           <div className="flex items-center gap-1">
             <PenSquareIcon />
-            <button
+            <div
               onClick={(e) => {
                 handleDelete(e, note._id);
               }}
               className="btn btn-ghost text-error"
             >
               <Trash2Icon className="size-6" />
-            </button>
+            </div>
           </div>
         </div>
       </div>

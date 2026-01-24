@@ -22,8 +22,7 @@ const CreatePage = () => {
     setIsLoading(true);
 
     try {
-      const note = await createNote({ title, content });
-      console.log("Created note:", note);
+      await createNote({ title, content });
       toast.success("Note created!");
       navigate("/");
     } catch (error) {
